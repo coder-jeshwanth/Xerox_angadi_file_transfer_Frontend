@@ -1,0 +1,198 @@
+/* General resets and clean structure */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f5f7;
+    color: #333;
+}
+
+/* Dashboard container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    min-height: 100vh;
+    width: 100vw; /* Full-width of the viewport */
+    box-sizing: border-box; /* Ensure padding is included within the width */
+    overflow-x: hidden; /* Prevent horizontal scrollbars if content overflows slightly */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-bar {
+    margin-top: 10px;
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #0073e6;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header button {
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+header button:hover {
+    background-color: #cc0000;
+}
+
+/* Error Notification */
+.dashboard-error {
+    color: #ff4d4d;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* File List Container */
+.file-list-container {
+    display: flex; /* Flexbox for horizontal alignment */
+    flex-wrap: nowrap; /* Disable wrapping so items stay side by side */
+    gap: 20px; /* Add spacing between cards */
+    margin: 20px 0;
+    padding: 10px;
+    width: 100%; /* Full-width container */
+    overflow-x: auto; /* Enable horizontal scrolling if content overflows */
+    box-sizing: border-box; /* Include padding in width calculation */
+    align-items: flex-start; /* Align child items to the top of the row */
+}
+
+/* File Card Styling */
+.file-card {
+    flex: 0 0 auto; /* Prevent shrinking and ensure fixed width */
+    width: 250px; /* Fixed width for each card */
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.file-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.file-card h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0;
+    word-break: break-word; /* Break long words to prevent overflow */
+}
+
+.file-card-actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 15px;
+}
+
+.file-card button {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.file-card button.preview {
+    background-color: #4caf50;
+}
+
+.file-card button.preview:hover {
+    background-color: #388e3c;
+}
+
+.file-card button.print {
+    background-color: #0073e6;
+}
+
+.file-card button.print:hover {
+    background-color: #005bb5;
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+.modal-heading {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.preview-iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.close-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: #cc0000;
+}

@@ -1,0 +1,170 @@
+/* UserDashboard.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #a259ff;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Ensure content starts from the top */
+    background-color: #a259ff;
+    min-height: 100vh;
+    padding: 20px 0; /* Add padding to avoid elements touching the top/bottom edges */
+}
+
+/* Pop-up Modal */
+.popup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Dim background overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* High z-index to appear above all content */
+}
+
+.popup-content {
+    background-color: #ffffff; /* White background matches the dashboard container */
+    border-radius: 12px;
+    padding: 20px 30px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Nice shadow effect */
+    max-width: 400px;
+    width: 90%;
+}
+
+.popup-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.popup-content h3 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #a259ff; /* Match dashboard's color palette */
+    margin: 0 0 20px;
+}
+
+.popup-button {
+    background-color: #a259ff; /* Consistent button styling */
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup-button:hover {
+    background-color: #8b3ed6; /* Slightly darker hover effect */
+}
+
+.header {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.dashboard-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    margin: 0 auto; /* Center horizontally if there's extra space */
+    flex-shrink: 0; /* Prevent unnecessary shrinking of the container */
+}
+
+.welcome-message {
+    color: #a259ff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.file-upload-section,
+.uploaded-files {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.file-upload-section h3,
+.uploaded-files h3 {
+    color: #555;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.file-input {
+    border: 2px solid #a259ff;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.file-input:focus {
+    border-color: #8b3ed6;
+}
+
+.submit-button {
+    background-color: #a259ff;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%;
+}
+
+.submit-button:hover {
+    background-color: #8b3ed6;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.uploaded-files .file-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.uploaded-files .file-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.no-files-message {
+    color: #555;
+    font-size: 16px;
+    margin-top: 10px;
+}
