@@ -1,40 +1,28 @@
-/* General resets and clean structure */
+/* Ensure body stretches fully across the screen */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
     background-color: #f4f5f7;
     color: #333;
+    height: 100%; /* Ensures body fills the vertical height */
 }
 
 /* Dashboard container */
 .dashboard-container {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     padding: 20px;
-    min-height: 100vh;
-    width: 100vw; /* Full-width of the viewport */
-    box-sizing: border-box; /* Ensure padding is included within the width */
-    overflow-x: hidden; /* Prevent horizontal scrollbars if content overflows slightly */
+    height: 100vh; /* Stretch to full height of the viewport */
+    width: 100vw; /* Fill the entire width of the screen */
+    box-sizing: border-box; /* Includes padding in sizing calculations */
+    background-color: #f4f5f7;
+    overflow: hidden; /* Prevent unnecessary scrolling */
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.search-bar {
-    margin-top: 10px;
-    padding: 8px;
-    font-size: 14px;
-    width: 100%;
-    max-width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Header Styles */
+/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -44,6 +32,7 @@ header {
     color: white;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 header h1 {
@@ -67,6 +56,17 @@ header button:hover {
     background-color: #cc0000;
 }
 
+/* Search Bar */
+.search-bar {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 /* Error Notification */
 .dashboard-error {
     color: #ff4d4d;
@@ -75,29 +75,31 @@ header button:hover {
     margin: 10px 0;
 }
 
-/* File List Container */
+/* File List Container: Utilize Flexbox or Grid for stretching */
 .file-list-container {
-    display: flex; /* Flexbox for horizontal alignment */
-    flex-wrap: nowrap; /* Disable wrapping so items stay side by side */
-    gap: 20px; /* Add spacing between cards */
-    margin: 20px 0;
+    display: grid; /* Use grid layout for consistent stretching */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamic columns */
+    gap: 20px; /* Add spacing between grid items */
     padding: 10px;
-    width: 100%; /* Full-width container */
-    overflow-x: auto; /* Enable horizontal scrolling if content overflows */
-    box-sizing: border-box; /* Include padding in width calculation */
-    align-items: flex-start; /* Align child items to the top of the row */
+    flex: 1; /* Allocate remaining vertical space */
+    overflow-y: auto; /* Allow scrolling for long lists */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* File Card Styling */
 .file-card {
-    flex: 0 0 auto; /* Prevent shrinking and ensure fixed width */
-    width: 250px; /* Fixed width for each card */
+    width: 100%; /* Allow cards to stretch full width of grid cell */
     background: white;
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column; /* Keep content in vertical format */
+    justify-content: space-between; /* Space between heading and buttons */
+    text-align: center;
 }
 
 .file-card:hover {
@@ -105,6 +107,7 @@ header button:hover {
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* File Card Title */
 .file-card h3 {
     font-size: 18px;
     color: #333;
@@ -112,21 +115,25 @@ header button:hover {
     word-break: break-word; /* Break long words to prevent overflow */
 }
 
+/* Card Actions */
 .file-card-actions {
     display: flex;
-    justify-content: space-evenly;
-    margin-top: 15px;
+    justify-content: center; /* Center-align buttons horizontally */
+    gap: 10px; /* Spacing between buttons */
+    margin-top: 10px;
 }
 
 .file-card button {
     border: none;
     border-radius: 5px;
-    padding: 8px 12px;
+    padding: 10px 15px;
     font-size: 14px;
     font-weight: bold;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: calc(50% - 5px); /* Proper alignment */
 }
 
 .file-card button.preview {
@@ -167,14 +174,12 @@ header button:hover {
     text-align: center;
     width: 90%;
     max-width: 600px;
+    height: auto;
+    max-height: 80vh; /* Prevent oversized modals */
+    overflow-y: auto; /* Scroll if content is too tall */
 }
 
-.modal-heading {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
+/* Iframe for File Preview */
 .preview-iframe {
     width: 100%;
     height: 400px;
@@ -182,6 +187,7 @@ header button:hover {
     margin-bottom: 15px;
 }
 
+/* Modal Close Button */
 .close-button {
     background-color: #ff4d4d;
     color: white;

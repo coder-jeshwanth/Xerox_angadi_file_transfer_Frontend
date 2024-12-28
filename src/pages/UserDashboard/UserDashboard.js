@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { WebSocketService } from "../../services/WebSocketService";
 import "./UserDashboard.css";
 
 const UserDashboard = () => {
@@ -25,28 +24,6 @@ const UserDashboard = () => {
         }
     }, [navigate]);
 
-    // Establish WebSocket connection
-    useEffect(() => {
-        if (!username) return;
-
-        const client = WebSocketService.connect(username, (message) => {
-            console.log("WebSocket message received:", message);
-
-            try {
-                const parsedMessage = JSON.parse(message);
-                if (parsedMessage.status === "deleted") {
-                    fetchUploadedFiles(); // Refresh file list on deletion
-                }
-                if (parsedMessage.status === "printed") {
-                    console.log(`[WebSocket] File printed: ${parsedMessage.fileId}`);
-                }
-            } catch (e) {
-                console.error("Failed to parse WebSocket message:", e);
-            }
-        });
-
-        return () => client.deactivate(); // Cleanup WebSocket connection
-    }, [username]);
 
     // Fetch the uploaded files
     const fetchUploadedFiles = useCallback(async () => {

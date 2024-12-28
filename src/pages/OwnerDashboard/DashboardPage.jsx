@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import {
     fetchFiles,
     fetchFileContent,
@@ -7,7 +8,7 @@ import {
 import { getToken, clearToken } from "../../services/tokenUtils";
 import { useNavigate } from "react-router-dom";
 import FileList from "../../components/FileList";
-import "./dashboardpage.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const DashboardPage = () => {
     const [files, setFiles] = useState({});
@@ -35,7 +36,8 @@ const DashboardPage = () => {
 
             if (response && response.data && typeof response.data === "object") {
                 setFiles(response.data);
-                setFilteredFiles(response.data); // Initialize filteredFiles
+                setFilteredFiles(response.data);
+                setError(""); // Clear the error if files are successfully loaded
             } else {
                 setFiles({});
                 setFilteredFiles({});
@@ -49,15 +51,8 @@ const DashboardPage = () => {
         }
     };
 
-    // Automatically refresh file list periodically
     useEffect(() => {
-        loadFiles(); // Initial load
-
-        const intervalId = setInterval(() => {
-            loadFiles();
-        }, 20000); // Fetch files every 20 seconds
-
-        return () => clearInterval(intervalId); // Cleanup interval on component unmount
+        loadFiles();
     }, []);
 
     const handlePreview = async (fileId, fileName) => {
@@ -86,7 +81,6 @@ const DashboardPage = () => {
             iframe.onload = () => {
                 iframe.contentWindow.print();
 
-                // Trigger confirmation dialog after 3 seconds
                 setTimeout(async () => {
                     document.body.removeChild(iframe);
                     const userConfirmed = window.confirm(
@@ -103,7 +97,7 @@ const DashboardPage = () => {
                     } else {
                         setError("Print not confirmed. File not deleted.");
                     }
-                }, 3000); // 3 seconds delay
+                }, 3000);
             };
         } catch (err) {
             console.error("Error printing the file:", err);
@@ -128,14 +122,14 @@ const DashboardPage = () => {
         setSearchQuery(query);
 
         if (!query) {
-            setFilteredFiles(files); // Reset to all files if query is empty
+            setFilteredFiles(files);
             return;
         }
 
         const filtered = Object.keys(files)
             .filter((key) => key.toLowerCase().includes(query))
             .reduce((obj, key) => {
-                obj[key] = files[key]; // Preserve the structure of the files object
+                obj[key] = files[key];
                 return obj;
             }, {});
 
@@ -143,26 +137,46 @@ const DashboardPage = () => {
     };
 
     return (
-        <div className="dashboard-container">
-            <header>
-                <div className="header-content">
-                    <h1>Dashboard</h1>
-                    <button onClick={handleLogout} className="logout-button">
-                        Logout
+        <div className="container-fluid min-vh-100 d-flex flex-column p-3">
+            {/* Header Section */}
+            <header className="d-flex justify-content-between align-items-center py-3 bg-primary text-white rounded shadow p-3 mb-4">
+                <div className="d-flex align-items-center">
+                    <h1 className="fs-4 m-0">Dashboard</h1>
+                    {/* Manual Refresh Button */}
+                    <button
+                        onClick={loadFiles}
+                        type="button"
+                        className="btn btn-light btn-sm ms-3"
+                        title="Refresh Files"
+                    >
+                        <i className="bi bi-arrow-clockwise"></i>
                     </button>
                 </div>
+                <button onClick={handleLogout} className="btn btn-danger btn-sm">
+                    Logout
+                </button>
+            </header>
+
+            {/* Search Bar */}
+            <div className="input-group mb-3">
                 <input
                     type="text"
-                    className="search-bar"
+                    className="form-control"
                     placeholder="Search by username..."
                     value={searchQuery}
                     onChange={handleSearch}
                 />
-            </header>
+            </div>
 
-            {error && <p className="dashboard-error">{error}</p>}
+            {/* Error Message */}
+            {error && (
+                <div className="alert alert-danger text-center" role="alert">
+                    {error}
+                </div>
+            )}
 
-            <div className="file-list-container">
+            {/* File List Section */}
+            <div className="flex-grow-1 overflow-auto">
                 {Object.keys(filteredFiles).length > 0 ? (
                     <FileList
                         files={filteredFiles}
@@ -170,22 +184,42 @@ const DashboardPage = () => {
                         onPrint={handlePrint}
                     />
                 ) : (
-                    <p className="empty-message">No files available.</p>
+                    <p className="text-center text-muted">No files available.</p>
                 )}
             </div>
 
+            {/* Modal Preview */}
             {previewFile.fileUrl && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3 className="modal-heading">Preview: {previewFile.fileName}</h3>
-                        <iframe
-                            src={previewFile.fileUrl}
-                            title="File Preview"
-                            className="preview-iframe"
-                        />
-                        <button onClick={closePreview} className="close-button">
-                            Close
-                        </button>
+                <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Preview: {previewFile.fileName}</h5>
+                                <button
+                                    onClick={closePreview}
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                />
+                            </div>
+                            <div className="modal-body">
+                                <iframe
+                                    src={previewFile.fileUrl}
+                                    title="File Preview"
+                                    className="w-100"
+                                    style={{ height: "400px", border: "none" }}
+                                />
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    onClick={closePreview}
+                                    type="button"
+                                    className="btn btn-secondary"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
