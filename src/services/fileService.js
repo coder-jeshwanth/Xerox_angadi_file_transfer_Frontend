@@ -44,6 +44,21 @@ export const deleteFileAfterPrint = async (fileId, token) => {
         throw error.response.data.message;
     }
 };
+
+// Delete all files
+export const deleteAllFiles = async (token) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/files/deleteAll`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response?.data?.message || "Failed to delete all files.";
+    }
+};
+
 const DashboardPage = () => {
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);

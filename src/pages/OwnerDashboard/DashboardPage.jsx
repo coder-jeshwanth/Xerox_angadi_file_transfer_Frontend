@@ -4,6 +4,7 @@ import {
     fetchFiles,
     fetchFileContent,
     deleteFileAfterPrint,
+    deleteAllFiles, // Import the deleteAllFiles function
 } from "../../services/fileService";
 import { getToken, clearToken } from "../../services/tokenUtils";
 import { useNavigate } from "react-router-dom";
@@ -105,6 +106,27 @@ const DashboardPage = () => {
         }
     };
 
+    // Handle "Delete All" functionality
+    const handleDeleteAll = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete all files?");
+        if (!confirmDelete) return; // Exit if not confirmed
+
+        try {
+            const token = getToken();
+            if (!token) {
+                handleLogout();
+                return;
+            }
+            await deleteAllFiles(token); // Call "delete all" service
+            setFiles({});
+            setFilteredFiles({});
+            alert("All files deleted successfully!");
+        } catch (err) {
+            console.error("Error deleting all files:", err);
+            setError("Failed to delete all files. Please try again.");
+        }
+    };
+
     const handleLogout = () => {
         clearToken();
         navigate("/owner/login");
@@ -150,6 +172,15 @@ const DashboardPage = () => {
                         title="Refresh Files"
                     >
                         <i className="bi bi-arrow-clockwise"></i>
+                    </button>
+                    {/* Delete All Button */}
+                    <button
+                        onClick={handleDeleteAll}
+                        type="button"
+                        className="btn btn-danger btn-sm ms-3"
+                        title="Delete All Files"
+                    >
+                        Delete All
                     </button>
                 </div>
                 <button onClick={handleLogout} className="btn btn-danger btn-sm">
