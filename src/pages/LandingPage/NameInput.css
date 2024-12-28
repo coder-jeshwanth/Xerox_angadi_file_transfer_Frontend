@@ -81,3 +81,15 @@ body {
 .submit-button:hover {
     background-color: #8b3ed6;
 }
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.loading-message {
+    color: blue;
+    font-size: 14px;
+    margin: 8px 0;
+}
