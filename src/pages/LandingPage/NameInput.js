@@ -13,7 +13,7 @@ const NameInput = ({ setUsername }) => {
     const checkUsernameAvailability = async (username) => {
         try {
             setIsChecking(true); // Indicate the API call is in progress
-            const response = await axios.post("http://localhost:8080/api/user/checkUsername", null, {
+            const response = await axios.post("https://xerox.likithprojects.live/api/user/checkUsername", null, {
                 params: { username }, // Passing username as form data (query param in this case)
             });
             setIsChecking(false);

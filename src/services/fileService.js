@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-const API_BASE_URL = 'http://localhost:8080/api/auth';
+const API_BASE_URL = 'https://xerox-angadi-file-transfer-frontend.vercel.app/api/auth';
 
 // Fetch files logic and automatic fetching
 export const fetchFiles = async (token) => {
