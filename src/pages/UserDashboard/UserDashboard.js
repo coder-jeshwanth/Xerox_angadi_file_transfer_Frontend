@@ -29,7 +29,7 @@ const UserDashboard = () => {
     const fetchUploadedFiles = useCallback(async () => {
         try {
             const response = await fetch(
-                `https://xerox.likithprojects.live/api/user/dashboard/${username}`
+                `http://localhost:8080/api/user/dashboard/${username}`
             );
             if (response.ok) {
                 const data = await response.json();
@@ -68,7 +68,7 @@ const UserDashboard = () => {
         formData.append("username", username);
 
         try {
-            const response = await fetch("https://xerox.likithprojects.live/api/user/upload", {
+            const response = await fetch("http://localhost:8080/api/user/upload", {
                 method: "POST",
                 body: formData,
             });

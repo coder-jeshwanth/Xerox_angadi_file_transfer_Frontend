@@ -34,7 +34,7 @@ const FileUpload = () => {
         formData.append("username", username);
 
         try {
-            const response = await fetch("https://xerox.likithprojects.live/api/user/upload", {
+            const response = await fetch("http://localhost:8080/api/user/upload", {
                 method: "POST",
                 body: formData,
             });
