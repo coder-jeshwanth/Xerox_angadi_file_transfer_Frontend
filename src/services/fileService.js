@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-const API_BASE_URL = 'https://xerox.likithprojects.live/api/auth';
+const API_BASE_URL = 'https://backend.tigerjeshy.live/api/auth';
 
 // Fetch files logic and automatic fetching
 export const fetchFiles = async (token) => {
