@@ -38,8 +38,8 @@ const FileList = ({ files, onPreview, onPrint, onDownload, onRefresh }) => {
                         key={username}
                         className="card shadow-sm"
                         style={{
-                            flex: '1 1 calc(30% - 1rem)',
-                            maxWidth: '30%',
+                            flex: '1 1 calc(45% - 1rem)',
+                            maxWidth: '45%',
                             minWidth: '280px',
                         }}
                     >
