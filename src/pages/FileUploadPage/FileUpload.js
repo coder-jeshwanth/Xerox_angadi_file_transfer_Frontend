@@ -6,7 +6,8 @@ const FileUpload = () => {
     const [files, setFiles] = useState([]);
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
-    const [uploadProgress, setUploadProgress] = useState(0); // State for upload progress
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [isUploading, setIsUploading] = useState(false); // State to track if uploading
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,6 +30,8 @@ const FileUpload = () => {
             return;
         }
 
+        setIsUploading(true); // Set uploading state to true
+
         const formData = new FormData();
         files.forEach((file) => formData.append("files", file));
         formData.append("username", username);
@@ -39,18 +42,23 @@ const FileUpload = () => {
                 body: formData,
                 onUploadProgress: (progressEvent) => {
                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    setUploadProgress(percentCompleted); // Update progress
+                    setUploadProgress(percentCompleted);
                 }
             });
 
             if (response.ok) {
-                navigate("/dashboard", { state: { needRefresh: true } });
+                // Delay navigation to ensure animation completes
+                setTimeout(() => {
+                    navigate("/dashboard", { state: { needRefresh: true } });
+                }, 1000); // Adjust the delay as needed
             } else {
                 setError("File upload failed!");
+                setIsUploading(false); // Reset uploading state
             }
         } catch (error) {
             console.error("Error uploading files:", error);
             setError("An error occurred while uploading files.");
+            setIsUploading(false); // Reset uploading state
         }
     };
 
@@ -70,8 +78,12 @@ const FileUpload = () => {
                         onChange={handleFileChange}
                     />
                     {error && <p className="error-message">{error}</p>}
-                    <button onClick={handleUpload} className="submit-button">
-                        {uploadProgress > 0 ? `Uploading... ${uploadProgress}%` : "Upload"}
+                    <button
+                        onClick={handleUpload}
+                        className={`submit-button ${isUploading ? 'uploading' : ''}`}
+                        disabled={isUploading} // Disable button during upload
+                    >
+                        {isUploading ? `Uploading... ${uploadProgress}%` : "Upload"}
                     </button>
                 </div>
             </div>
