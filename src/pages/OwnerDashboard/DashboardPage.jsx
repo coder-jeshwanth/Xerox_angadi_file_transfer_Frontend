@@ -102,7 +102,7 @@ const DashboardPage = () => {
                     } else {
                         setError("Print not confirmed. File not deleted.");
                     }
-                }, 3000);
+                }, 10000);
             };
         } catch (err) {
             console.error("Error printing the file:", err);
