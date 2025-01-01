@@ -3,51 +3,54 @@ import './FileUpload.css';
 import { useNavigate } from "react-router-dom";
 
 const FileUpload = () => {
-    const [files, setFiles] = useState([]); // Array to hold multiple files
+    const [files, setFiles] = useState([]);
     const [username, setUsername] = useState("");
-    const [error, setError] = useState(""); // Track if there's an error
+    const [error, setError] = useState("");
+    const [uploadProgress, setUploadProgress] = useState(0); // State for upload progress
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Retrieve username from session storage
         const storedUsername = sessionStorage.getItem("username");
         if (!storedUsername) {
-            navigate("/"); // Redirect to homepage if no username is found
+            navigate("/");
         } else {
             setUsername(storedUsername);
         }
     }, [navigate]);
 
     const handleFileChange = (e) => {
-        setFiles([...e.target.files]); // Set the selected files
-        setError(""); // Clear the error when files are selected
+        setFiles([...e.target.files]);
+        setError("");
     };
 
     const handleUpload = async () => {
         if (files.length === 0) {
-            setError("Please upload files!"); // Set the error message if no files are selected
+            setError("Please upload files!");
             return;
         }
 
         const formData = new FormData();
-        files.forEach((file) => formData.append("files", file)); // Append each file to formData
+        files.forEach((file) => formData.append("files", file));
         formData.append("username", username);
 
         try {
             const response = await fetch("https://backend.tigerjeshy.live/api/user/upload", {
                 method: "POST",
                 body: formData,
+                onUploadProgress: (progressEvent) => {
+                    const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    setUploadProgress(percentCompleted); // Update progress
+                }
             });
 
             if (response.ok) {
-                // Navigate to the dashboard without showing an alert
                 navigate("/dashboard", { state: { needRefresh: true } });
             } else {
-                setError("File upload failed!"); // Set an error message for failed uploads
+                setError("File upload failed!");
             }
         } catch (error) {
             console.error("Error uploading files:", error);
-            setError("An error occurred while uploading files."); // Handle unexpected errors
+            setError("An error occurred while uploading files.");
         }
     };
 
@@ -63,13 +66,12 @@ const FileUpload = () => {
                     <input
                         type="file"
                         className="file-input"
-                        multiple // Allow multiple file selection
+                        multiple
                         onChange={handleFileChange}
                     />
-                    {/* Error message */}
                     {error && <p className="error-message">{error}</p>}
                     <button onClick={handleUpload} className="submit-button">
-                        Upload
+                        {uploadProgress > 0 ? `Uploading... ${uploadProgress}%` : "Upload"}
                     </button>
                 </div>
             </div>
