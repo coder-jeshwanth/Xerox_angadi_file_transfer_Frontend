@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import FileList from "../../components/FileList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const BASE_URL = "https://backend.tigerjeshy.live";
+
 const DashboardPage = () => {
     const [files, setFiles] = useState({});
     const [filteredFiles, setFilteredFiles] = useState({});
@@ -122,7 +124,7 @@ const DashboardPage = () => {
             setFilteredFiles({});
 
             // Trigger API request to delete downloaded files
-            await fetch('https://backend.tigerjeshy.live/api/deleteDownloadedFiles', {
+            await fetch(`${BASE_URL}/api/deleteDownloadedFiles`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -195,7 +197,7 @@ const DashboardPage = () => {
             window.URL.revokeObjectURL(url);
 
             // Log the download on the server
-            await fetch('https://backend.tigerjeshy.live/api/logDownload', {
+            await fetch(`${BASE_URL}/api/logDownload`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

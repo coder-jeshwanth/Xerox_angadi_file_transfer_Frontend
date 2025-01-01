@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./UserDashboard.css";
 
+const BASE_URL = "https://backend.tigerjeshy.live";
+
 const UserDashboard = () => {
     const [username, setUsername] = useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]); // File list state
@@ -28,7 +30,7 @@ const UserDashboard = () => {
     const fetchUploadedFiles = useCallback(async () => {
         try {
             const response = await fetch(
-                `https://backend.tigerjeshy.live/api/user/dashboard/${username}`
+                `${BASE_URL}/api/user/dashboard/${username}`
             );
             if (response.ok) {
                 const data = await response.json();
@@ -67,7 +69,7 @@ const UserDashboard = () => {
         formData.append("username", username);
 
         try {
-            const response = await fetch("https://backend.tigerjeshy.live/api/user/upload", {
+            const response = await fetch(`${BASE_URL}/api/user/upload`, {
                 method: "POST",
                 body: formData,
             });
@@ -86,7 +88,7 @@ const UserDashboard = () => {
 
     const handleDeleteAllFiles = async () => {
         try {
-            const response = await fetch(`https://backend.tigerjeshy.live/api/auth/files/deleteByUsername?userName=${username}`, {
+            const response = await fetch(`${BASE_URL}/api/auth/files/deleteByUsername?userName=${username}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -161,7 +163,7 @@ const UserDashboard = () => {
             {showPopup && (
                 <div className="popup-modal">
                     <div className="popup-content">
-                        <div className="popup-success-text" style={{ color: 'green', fontWeight: 'bold',fontSize: '25px' }}>
+                        <div className="popup-success-text" style={{ color: 'green', fontWeight: 'bold', fontSize: '25px' }}>
                             Success
                         </div>
                         <h3>All files printed successfully!</h3>
