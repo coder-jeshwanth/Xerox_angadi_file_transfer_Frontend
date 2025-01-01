@@ -173,46 +173,47 @@ const DashboardPage = () => {
         setFilteredFiles(filtered);
     };
 
-    // Implement the handleDownload function
     const handleDownload = async (fileId, fileName, username) => {
-        try {
-            const token = getToken();
-            const response = await fetchFileContent(fileId, token);
-            const blob = new Blob([response], { type: response.type });
+    try {
+        const token = getToken();
+        const response = await fetchFileContent(fileId, token);
+        const blob = new Blob([response], { type: response.type });
 
-            // Create a URL for the blob
-            const url = window.URL.createObjectURL(blob);
+        // Create a URL for the blob
+        const url = window.URL.createObjectURL(blob);
 
-            // Sanitize the filename and username
-            const sanitizedFileName = fileName.replace(/\s+/g, '_').replace(/[^\w\-\.]/g, '');
-            const sanitizedUsername = username.replace(/\s+/g, '_').replace(/[^\w\-\.]/g, '');
+        // Sanitize the filename and username
+        const sanitizedFileName = fileName.replace(/\s+/g, '_').replace(/[^\w\-\.]/g, '');
+        const sanitizedUsername = username.replace(/\s+/g, '_').replace(/[^\w\-\.]/g, '');
 
-            // Create an anchor element and trigger a download
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${sanitizedUsername}_${sanitizedFileName}`; // Include username first in the filename
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+        // Create an anchor element and trigger a download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${sanitizedUsername}_${sanitizedFileName}`; // Include username first in the filename
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-            // Revoke the object URL
-            window.URL.revokeObjectURL(url);
+        // Revoke the object URL
+        window.URL.revokeObjectURL(url);
 
-            // Log the download on the server
-            await fetch(`${BASE_URL}/api/logDownload`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ filePath: `${sanitizedUsername}_${sanitizedFileName}`, username, timestamp: new Date().toISOString() }),
-            });
+        // Log the download on the server
+        await fetch(`${BASE_URL}/api/logDownload`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath: `${sanitizedUsername}_${sanitizedFileName}`, username, timestamp: new Date().toISOString() }),
+        });
 
-            alert(`File downloaded successfully as ${sanitizedUsername}_${sanitizedFileName}.`);
-        } catch (error) {
-            console.error("Error downloading file:", error);
-            setError("Error downloading file.");
-        }
-    };
+        // Remove or comment out this line to avoid showing the alert message
+        // alert(`File downloaded successfully as ${sanitizedUsername}_${sanitizedFileName}.`);
+    } catch (error) {
+        console.error("Error downloading file:", error);
+        setError("Error downloading file.");
+    }
+};
+//download logic changed
 
     // Toggle dark mode
     const toggleDarkMode = () => {
