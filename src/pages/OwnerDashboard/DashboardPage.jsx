@@ -225,31 +225,34 @@ const DashboardPage = () => {
                     >
                         <i className="bi bi-arrow-clockwise"></i>
                     </button>
+                </div>
+                <div className="d-flex align-items-center" style={{ width: "70%" }}>
+                    {/* Search Bar */}
+                    <div className="input-group w-100">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by username..."
+                            value={searchQuery}
+                            onChange={handleSearch}
+                        />
+                    </div>
+                </div>
+                <div className="d-flex align-items-center">
                     {/* Delete All Button */}
                     <button
                         onClick={handleDeleteAll}
                         type="button"
-                        className="btn btn-danger btn-sm ms-3"
+                        className="btn btn-danger btn-sm me-3"
                         title="Delete All Files"
                     >
                         Delete All
                     </button>
+                    <button onClick={handleLogout} className="btn btn-danger btn-sm">
+                        Logout
+                    </button>
                 </div>
-                <button onClick={handleLogout} className="btn btn-danger btn-sm">
-                    Logout
-                </button>
             </header>
-
-            {/* Search Bar */}
-            <div className="input-group mb-3">
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search by username..."
-                    value={searchQuery}
-                    onChange={handleSearch}
-                />
-            </div>
 
             {/* Error Message */}
             {error && (
@@ -266,6 +269,7 @@ const DashboardPage = () => {
                         onPreview={handlePreview}
                         onPrint={handlePrint}
                         onDownload={handleDownload} // Pass handleDownload as a prop
+                        onRefresh={loadFiles} // Pass loadFiles as a prop
                     />
                 ) : (
                     <p className="text-center text-muted">No files available.</p>

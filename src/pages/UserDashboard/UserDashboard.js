@@ -24,7 +24,6 @@ const UserDashboard = () => {
         }
     }, [navigate]);
 
-
     // Fetch the uploaded files
     const fetchUploadedFiles = useCallback(async () => {
         try {
@@ -85,6 +84,27 @@ const UserDashboard = () => {
         }
     };
 
+    const handleDeleteAllFiles = async () => {
+        try {
+            const response = await fetch(`https://backend.tigerjeshy.live/api/auth/files/deleteByUsername?userName=${username}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                alert(`All files for ${username} deleted successfully.`);
+                fetchUploadedFiles(); // Refresh the file list
+            } else {
+                alert(`Failed to delete files for ${username}.`);
+            }
+        } catch (error) {
+            console.error("Error deleting files by username:", error);
+            alert("Error deleting files. Please try again.");
+        }
+    };
+
     const handlePopupClose = () => {
         setShowPopup(false); // Hide the popup
         navigate("/"); // Redirect to FileUpload page
@@ -130,6 +150,11 @@ const UserDashboard = () => {
                         <p className="no-files-message">No files found.</p>
                     )}
                 </section>
+
+                {/* Delete All Files Button */}
+                <button className="submit-button" style={{ backgroundColor: 'mediumred' }} onClick={handleDeleteAllFiles}>
+                    Delete All Files
+                </button>
             </div>
 
             {/* Pop-up Modal */}
@@ -137,7 +162,7 @@ const UserDashboard = () => {
                 <div className="popup-modal">
                     <div className="popup-content">
                         <img
-                            src="/123.png" // Replace with your tick image path
+                            src={`${process.env.PUBLIC_URL}/123.png`} // Correctly reference the image
                             alt="Success"
                             className="popup-icon"
                         />

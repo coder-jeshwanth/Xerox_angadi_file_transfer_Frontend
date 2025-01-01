@@ -1,6 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const FileList = ({ files, onPreview, onPrint, onDownload }) => {
+const FileList = ({ files, onPreview, onPrint, onDownload, onRefresh }) => {
+    const handleDeleteByUsername = async (username) => {
+        try {
+            const response = await fetch(`https://backend.tigerjeshy.live/api/auth/files/deleteByUsername?userName=${username}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                alert(`Files for ${username} deleted successfully.`);
+                onRefresh(); // Call the refresh function after successful deletion
+            } else {
+                alert(`Failed to delete files for ${username}.`);
+            }
+        } catch (error) {
+            console.error("Error deleting files by username:", error);
+            alert("Error deleting files. Please try again.");
+        }
+    };
+
     if (Object.keys(files).length === 0) {
         return (
             <div className="text-center mt-4">
@@ -22,8 +43,15 @@ const FileList = ({ files, onPreview, onPrint, onDownload }) => {
                             minWidth: '280px',
                         }}
                     >
-                        <div className="card-header bg-primary text-white">
+                        <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                             <h5 className="mb-0">{username}</h5>
+                            <button
+                                onClick={() => handleDeleteByUsername(username)}
+                                className="btn btn-danger btn-sm"
+                                title="Delete User Files"
+                            >
+                                &times;
+                            </button>
                         </div>
                         <ul className="list-group list-group-flush">
                             {Array.isArray(userFiles) ? (
