@@ -10,6 +10,7 @@ import { getToken, clearToken } from "../../services/tokenUtils";
 import { useNavigate } from "react-router-dom";
 import FileList from "../../components/FileList";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./dashboardpage.css"; // Import the CSS file
 
 const BASE_URL = "https://backend.tigerjeshy.live";
 
@@ -22,6 +23,7 @@ const DashboardPage = () => {
         fileName: null,
     });
     const [searchQuery, setSearchQuery] = useState("");
+    const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
 
     const navigate = useNavigate();
 
@@ -212,8 +214,13 @@ const DashboardPage = () => {
         }
     };
 
+    // Toggle dark mode
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
     return (
-        <div className="container-fluid min-vh-100 d-flex flex-column p-3">
+        <div className={`container-fluid min-vh-100 d-flex flex-column p-3 ${isDarkMode ? 'dark-mode' : ''}`}>
             {/* Header Section */}
             <header className="d-flex justify-content-between align-items-center py-3 bg-primary text-white rounded shadow p-3 mb-4">
                 <div className="d-flex align-items-center">
@@ -252,6 +259,10 @@ const DashboardPage = () => {
                     </button>
                     <button onClick={handleLogout} className="btn btn-danger btn-sm">
                         Logout
+                    </button>
+                    {/* Dark Mode Toggle Button */}
+                    <button onClick={toggleDarkMode} className="btn btn-secondary btn-sm ms-3">
+                        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
                     </button>
                 </div>
             </header>

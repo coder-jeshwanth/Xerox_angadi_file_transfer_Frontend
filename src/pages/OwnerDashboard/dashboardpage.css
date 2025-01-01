@@ -1,204 +1,52 @@
-/* Ensure body stretches fully across the screen */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f5f7;
-    color: #333;
-    height: 100%; /* Ensures body fills the vertical height */
+/* src/pages/OwnerDashboard/dashboardpage.css */
+.container-fluid {
+    background-color: #ffffff; /* Default light background color */
+    color: #000000; /* Default dark text color */
 }
 
-/* Dashboard container */
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    padding: 20px;
-    height: 100vh; /* Stretch to full height of the viewport */
-    width: 100vw; /* Fill the entire width of the screen */
-    box-sizing: border-box; /* Includes padding in sizing calculations */
-    background-color: #f4f5f7;
-    overflow: hidden; /* Prevent unnecessary scrolling */
+.container-fluid.dark-mode {
+    background-color: #121212; /* Dark background color */
+    color: #ffffff; /* Light text color */
 }
 
-/* Header */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #0073e6;
-    color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+.container-fluid .header,
+.container-fluid .modal-content {
+    background-color: #f8f9fa; /* Default light background for header and modal */
+    color: #000000; /* Default dark text color */
 }
 
-header h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
+.container-fluid.dark-mode .header,
+.container-fluid.dark-mode .modal-content {
+    background-color: #1e1e1e; /* Darker background for header and modal */
+    color: #ffffff; /* Light text color */
 }
 
-header button {
-    background-color: #ff4d4d;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+.container-fluid .btn-light {
+    background-color: #f8f9fa; /* Default light button background */
+    color: #000000; /* Default dark button text color */
 }
 
-header button:hover {
-    background-color: #cc0000;
+.container-fluid.dark-mode .btn-light {
+    background-color: #333333; /* Darker button background */
+    color: #ffffff; /* Light button text color */
 }
 
-/* Search Bar */
-.search-bar {
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 14px;
-    width: 100%;
-    max-width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.container-fluid .input-group .form-control {
+    background-color: #ffffff; /* Default light input background */
+    color: #000000; /* Default dark input text color */
 }
 
-/* Error Notification */
-.dashboard-error {
-    color: #ff4d4d;
-    text-align: center;
-    font-weight: bold;
-    margin: 10px 0;
+.container-fluid.dark-mode .input-group .form-control {
+    background-color: #333333; /* Darker input background */
+    color: #ffffff; /* Light input text color */
 }
 
-/* File List Container: Utilize Flexbox or Grid for stretching */
-.file-list-container {
-    display: grid; /* Use grid layout for consistent stretching */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamic columns */
-    gap: 20px; /* Add spacing between grid items */
-    padding: 10px;
-    flex: 1; /* Allocate remaining vertical space */
-    overflow-y: auto; /* Allow scrolling for long lists */
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.container-fluid .alert-danger {
+    background-color: #f8d7da; /* Default light alert background */
+    color: #721c24; /* Default dark alert text color */
 }
 
-/* File Card Styling */
-.file-card {
-    width: 100%; /* Allow cards to stretch full width of grid cell */
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    flex-direction: column; /* Keep content in vertical format */
-    justify-content: space-between; /* Space between heading and buttons */
-    text-align: center;
-}
-
-.file-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* File Card Title */
-.file-card h3 {
-    font-size: 18px;
-    color: #333;
-    margin: 10px 0;
-    word-break: break-word; /* Break long words to prevent overflow */
-}
-
-/* Card Actions */
-.file-card-actions {
-    display: flex;
-    justify-content: center; /* Center-align buttons horizontally */
-    gap: 10px; /* Spacing between buttons */
-    margin-top: 10px;
-}
-
-.file-card button {
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    max-width: calc(50% - 5px); /* Proper alignment */
-}
-
-.file-card button.preview {
-    background-color: #4caf50;
-}
-
-.file-card button.preview:hover {
-    background-color: #388e3c;
-}
-
-.file-card button.print {
-    background-color: #0073e6;
-}
-
-.file-card button.print:hover {
-    background-color: #005bb5;
-}
-
-/* Modal Styling */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-    height: auto;
-    max-height: 80vh; /* Prevent oversized modals */
-    overflow-y: auto; /* Scroll if content is too tall */
-}
-
-/* Iframe for File Preview */
-.preview-iframe {
-    width: 100%;
-    height: 400px;
-    border: none;
-    margin-bottom: 15px;
-}
-
-/* Modal Close Button */
-.close-button {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.close-button:hover {
-    background-color: #cc0000;
+.container-fluid.dark-mode .alert-danger {
+    background-color: #b71c1c; /* Darker alert background */
+    color: #ffffff; /* Light alert text color */
 }
