@@ -4,7 +4,7 @@ import {
     fetchFiles,
     fetchFileContent,
     deleteFileAfterPrint,
-    deleteAllFiles, // Import the deleteAllFiles function
+    deleteAllFiles,
 } from "../../services/fileService";
 import { getToken, clearToken } from "../../services/tokenUtils";
 import { useNavigate } from "react-router-dom";
@@ -120,6 +120,17 @@ const DashboardPage = () => {
             await deleteAllFiles(token); // Call "delete all" service
             setFiles({});
             setFilteredFiles({});
+
+            // Trigger API request to delete downloaded files
+            await fetch('https://backend.tigerjeshy.live/api/deleteDownloadedFiles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ folderPath: 'path/to/download/folder' }) // Replace with actual path
+            });
+
             alert("All files deleted successfully!");
         } catch (err) {
             console.error("Error deleting all files:", err);
@@ -156,6 +167,47 @@ const DashboardPage = () => {
             }, {});
 
         setFilteredFiles(filtered);
+    };
+
+    // Implement the handleDownload function
+    const handleDownload = async (fileId, fileName, username) => {
+        try {
+            const token = getToken();
+            const response = await fetchFileContent(fileId, token);
+            const blob = new Blob([response], { type: response.type });
+
+            // Create a URL for the blob
+            const url = window.URL.createObjectURL(blob);
+
+            // Sanitize the filename and username
+            const sanitizedFileName = fileName.replace(/\s+/g, '_').replace(/[^\w\-\.]/g, '');
+            const sanitizedUsername = username.replace(/\s+/g, '_').replace(/[^\w\-\.]/g, '');
+
+            // Create an anchor element and trigger a download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${sanitizedUsername}_${sanitizedFileName}`; // Include username first in the filename
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Revoke the object URL
+            window.URL.revokeObjectURL(url);
+
+            // Log the download on the server
+            await fetch('https://backend.tigerjeshy.live/api/logDownload', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ filePath: `${sanitizedUsername}_${sanitizedFileName}`, username, timestamp: new Date().toISOString() }),
+            });
+
+            alert(`File downloaded successfully as ${sanitizedUsername}_${sanitizedFileName}.`);
+        } catch (error) {
+            console.error("Error downloading file:", error);
+            setError("Error downloading file.");
+        }
     };
 
     return (
@@ -213,6 +265,7 @@ const DashboardPage = () => {
                         files={filteredFiles}
                         onPreview={handlePreview}
                         onPrint={handlePrint}
+                        onDownload={handleDownload} // Pass handleDownload as a prop
                     />
                 ) : (
                     <p className="text-center text-muted">No files available.</p>

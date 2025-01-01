@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const FileList = ({ files, onPreview, onPrint }) => {
-    // Check if the files object is empty.
+const FileList = ({ files, onPreview, onPrint, onDownload }) => {
     if (Object.keys(files).length === 0) {
         return (
             <div className="text-center mt-4">
@@ -18,16 +17,15 @@ const FileList = ({ files, onPreview, onPrint }) => {
                         key={username}
                         className="card shadow-sm"
                         style={{
-                            flex: '1 1 calc(30% - 1rem)', // Make card responsive and limit max width to 30%
+                            flex: '1 1 calc(30% - 1rem)',
                             maxWidth: '30%',
-                            minWidth: '280px', // Prevent cards from shrinking too much on smaller screens
+                            minWidth: '280px',
                         }}
                     >
                         <div className="card-header bg-primary text-white">
                             <h5 className="mb-0">{username}</h5>
                         </div>
                         <ul className="list-group list-group-flush">
-                            {/* Safeguard to ensure userFiles is an array */}
                             {Array.isArray(userFiles) ? (
                                 userFiles.map((file) => (
                                     <li
@@ -47,6 +45,12 @@ const FileList = ({ files, onPreview, onPrint }) => {
                                                 className="btn btn-primary btn-sm"
                                             >
                                                 Print
+                                            </button>
+                                            <button
+                                                onClick={() => onDownload(file.id, file.fileName, username)}
+                                                className="btn btn-secondary btn-sm"
+                                            >
+                                                Download
                                             </button>
                                         </div>
                                     </li>
