@@ -161,11 +161,9 @@ const UserDashboard = () => {
             {showPopup && (
                 <div className="popup-modal">
                     <div className="popup-content">
-                        <img
-                            src={`${process.env.PUBLIC_URL}/123.png`} // Correctly reference the image
-                            alt="Success"
-                            className="popup-icon"
-                        />
+                        <div className="popup-success-text" style={{ color: 'green', fontWeight: 'bold',fontSize: '25px' }}>
+                            Success
+                        </div>
                         <h3>All files printed successfully!</h3>
                         <button className="popup-button" onClick={handlePopupClose}>
                             Go Back to Upload
